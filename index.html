@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>HitPay Checkout Drop-in test page</title>
+  </head>
+
+  <body>    
+    <script src="https://sandbox.hit-pay.com/hitpay.js"></script>
+
+    <script>
+      function onSuccess (data) {
+        const el = document.createElement('p')
+        el.innerHTML = 'success'
+        document.body.appendChild(el)
+      }
+
+      function onClose (data) {
+        const el = document.createElement('p')
+        el.innerHTML = 'closed'
+        document.body.appendChild(el)
+      }
+      
+      function onError (error) {
+        const el = document.createElement('p')
+        el.innerHTML = 'Error: ' + error
+        document.body.appendChild(el)
+      }
+
+      function onClick() {
+        if (!window.HitPay.inited) {
+          window.HitPay.init('http://securecheckout.sandbox.hit-pay.com/payment-request/@test-1/', {
+            // Optional, default is https
+            // scheme: 'http',
+            // Optional, default is hit-pay.com
+            domain: 'sandbox.hit-pay.com',
+            apiDomain: 'sandbox.hit-pay.com',
+            // Optional default is false
+            //closeOnError: true
+          },
+          // Optional callbacks
+          {
+            onClose: onClose,
+            onSuccess: onSuccess,
+            onError: onError
+          })
+        }
+
+        window.HitPay.toggle({
+          // Payment request method params
+          //paymentRequest: '922db0aa-c3d8-493f-a02e-02853bc4347f',          
+          // Optional
+          //method: 'card',
+          // Default method params
+          // Optional
+          //amount: 500
+        })          
+      }
+    </script>
+
+    <button onclick="onClick()">Show Drop-In</button>
+  </body>
+</html>
